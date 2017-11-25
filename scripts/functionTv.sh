@@ -34,7 +34,7 @@ function isAlive {
 }
 
 function onState {
-	if [ "$etatTV" =~ ": on" ] || [ "$etatTV" =~ ": in transition from standby" ]; then
+	if [[ "$etatTV" =~ ": on" ]] || [[ "$etatTV" =~ ": in transition from standby" ]]; then
 		speak "La télévision est alumée"
 	fi
 }
