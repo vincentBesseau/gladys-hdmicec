@@ -1,0 +1,19 @@
+{
+  "name": "gladys-hdmiCec",
+  "version": "0.1.0",
+  "description": "hdmi-cec module to turn on and turn off tv",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gladys",
+    "cec",
+    "hdmi",
+    "tv"
+  ],
+  "author": "vincentBesseau",
+  "dependencies": {
+    "shelljs": "^0.7.8"
+  }
+}
