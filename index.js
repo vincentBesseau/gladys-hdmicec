@@ -1,7 +1,7 @@
 
 module.exports = function(sails) {
 	
-	const shell = require('./lib/shelljs/shell');
+	const shell = require('shelljs');
 	const setup = require('./lib/setup');
 	const exec = require('./lib/exec');
 	const commands = require('./lib/hdmiCecCommand/index');
