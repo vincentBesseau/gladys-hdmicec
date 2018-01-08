@@ -12,7 +12,7 @@ module.exports = function(sails) {
  
     return {
 		shell: shell,
-		setup: setup,
+		install: setup,
 		exec: exec,
 		commands: commands
     };
