@@ -7,7 +7,12 @@ module.exports = function(sails) {
 	const commands = require('./lib/hdmiCecCommand/index');
 
 	gladys.on('ready', function(){
-		setup();
+		sails.log.info('Update tv state !')
+		commands.isAlive();
+		setInterval(function () {
+			sails.log.info('Update tv state !')
+			commands.isAlive();
+		}, 1800000)
 	});
  
     return {
