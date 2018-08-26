@@ -54,13 +54,13 @@ function unknowState {
 function tunOffTv {
 	echo standby 0 | cec-client -s -d 1 >/dev/null
 	debug "La télé s'éteint"
-	sleep 10
+	sleep $1
 	isAlive
 }
 
 function tunOnTv {
 	echo on 0 | cec-client -s -d 1 >/dev/null
 	debug "J'allume la télé"
-	sleep 10
+	sleep $1
 	isAlive
 }
