@@ -19,6 +19,6 @@ module.exports = function(sails) {
 		shell: shell,
 		install: setup,
 		exec: exec,
-		commands: commands
+		television: commands
     };
 };
