@@ -64,3 +64,7 @@ function tunOnTv {
 	sleep $1
 	isAlive
 }
+
+function getSource {
+	echo "scan" | cec-client -s -d 1 | grep device #
+}
