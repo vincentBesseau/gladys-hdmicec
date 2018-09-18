@@ -8,10 +8,10 @@ module.exports = function(sails) {
 
 	gladys.on('ready', function(){
 		sails.log.info('Update tv state !')
-		commands.isAlive();
+		commands.getState();
 		setInterval(function () {
 			sails.log.info('Update tv state !')
-			commands.isAlive();
+			commands.getState();
 		}, 1800000)
 	});
  
