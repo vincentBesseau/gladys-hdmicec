@@ -6,7 +6,6 @@ if ( typeof sails !== 'undefined' && sails ) {
 }
 
 const Store = require('data-store');
-const store = new Store({ path: './config/install.json' });
 const televisionApi = require('./lib/hdmiCecCommand/index.js');
 const config = require('./config/config.js');
 const install = require('./lib/install.js');
@@ -18,12 +17,17 @@ var gladysMqttAdapter = require('gladys-mqtt-adapter')({
     MODULE_SLUG: 'hdmicec' 
 });
 
-if( typeof store.data.install !== 'undefined' && store.data.install ) {
+const store = new Store({ path: './config/install.json' });
+
+if( store.data.install === undefined ) {
     install(gladysMqttAdapter,televisionApi, config);
+    store.set('install', 'true')
 }
-store.set('install', 'true')
 
 gladysMqttAdapter.on('message-notify', function(data) {
+    console.log('_type',data._type)
+    console.log('_command',data._command)
+    console.log('_options',data._options)
     switch (data._type) {
         case 'executeCommand':
             switch (data._command) {
@@ -40,7 +44,10 @@ gladysMqttAdapter.on('message-notify', function(data) {
                 break;
 
                 case 'switchState' :
-                    televisionApi.switchState(data._options);
+                    televisionApi.switchState({
+                        state: data._options,
+                        tempo: config.hdmiIntervalTempo
+                    });
                 break;
                 
                 default :
