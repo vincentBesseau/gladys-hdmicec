@@ -15,6 +15,7 @@
   "author": "vincentBesseau",
   "dependencies": {
     "shelljs": "^0.7.8",
-    "gladys-mqtt-adapter": "^0.2.1"
+    "gladys-mqtt-adapter": "^0.2.1",
+    "data-store": "^3.1.0"
   }
 }

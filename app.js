@@ -5,8 +5,11 @@ if ( typeof sails !== 'undefined' && sails ) {
     return '';
 }
 
-const televisionApi = require('./lib/hdmiCecCommand/index.js')
+const Store = require('data-store');
+const store = new Store({ path: './config/install.json' });
+const televisionApi = require('./lib/hdmiCecCommand/index.js');
 const config = require('./config/config.js');
+const install = require('./lib/install.js');
 var gladysMqttAdapter = require('gladys-mqtt-adapter')({
     MACHINE_ID: config.machineId,
     MQTT_URL: config.mqttUrl,
@@ -14,22 +17,14 @@ var gladysMqttAdapter = require('gladys-mqtt-adapter')({
     MQTT_PASSWORD: config.mqttPassword,
     MODULE_SLUG: 'hdmicec' 
 });
-console.log(gladysMqttAdapter)
+
+if( typeof store.data.install !== 'undefined' && store.data.install ) {
+    install(gladysMqttAdapter,televisionApi, config);
+}
+store.set('install', 'true')
 
 gladysMqttAdapter.on('message-notify', function(data) {
     switch (data._type) {
-        case 'config':
-            gladysMqttAdapter.device.create({
-                device : {
-                    name: res.name,
-                    protocol: 'MQTT',
-                    service: 'gladys-broadlink',
-                    identifier: res.module
-                },
-                types : []
-            })
-        break;
-
         case 'executeCommand':
             switch (data._command) {
                 case 'getSources' :
@@ -37,7 +32,11 @@ gladysMqttAdapter.on('message-notify', function(data) {
                 break;
 
                 case 'isAlive' :
-                    televisionApi.getState();
+                    var response = televisionApi.getState();
+                    gladysMqttAdapter.deviceState.create({
+                        value : response.state,
+                        devicetype : data._options
+                    })
                 break;
 
                 case 'openSource' :
