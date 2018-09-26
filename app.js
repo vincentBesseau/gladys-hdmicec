@@ -27,10 +27,6 @@ gladysMqttAdapter.on('message-notify', function(data) {
     switch (data._type) {
         case 'executeCommand':
             switch (data._command) {
-                case 'getSources' :
-                    televisionApi.getSources();
-                break;
-
                 case 'isAlive' :
                     var response = televisionApi.getState();
                     gladysMqttAdapter.deviceState.create({
