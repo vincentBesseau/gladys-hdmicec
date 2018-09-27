@@ -25,36 +25,42 @@ if( store.data.install === undefined ) {
 }
 
 gladysMqttAdapter.on('message-notify', function(data) {
-    console.log('_type',data._type)
-    console.log('_command',data._command)
-    console.log('_options',data._options)
-    switch (data._type) {
-        case 'executeCommand':
-            switch (data._command) {
-                case 'isAlive' :
-                    var response = televisionApi.getState();
-                    gladysMqttAdapter.deviceState.create({
-                        value : response.state,
-                        devicetype : data._options
-                    })
-                break;
+    if(data._type !== undefined){
+        console.log('_type',data._type)
+        console.log('_command',data._command)
+        console.log('_options',data._options)
+        switch (data._type) {
+            case 'executeCommand':
+                switch (data._command) {
+                    case 'getSource' :
+                        var sources = televisionApi.getSources();
+                        gladysMqttAdapter.command.command(data._options,sources)
+                    break;
 
-                case 'openSource' :
-                    televisionApi.openSource(data._options);
-                break;
+                    case 'isAlive' :
+                        var response = televisionApi.getState();
+                        gladysMqttAdapter.deviceState.create({
+                            value : response.state,
+                            devicetype : data._options
+                        })
+                    break;
 
-                case 'switchState' :
-                    televisionApi.switchState({
-                        state: data._options,
-                        tempo: config.hdmiIntervalTempo
-                    });
-                break;
-                
-                default :
-                    console.log('command '+data._command+' not exist !')
-            }
-        break;
-    }
-    
+                    case 'openSource' :
+                        televisionApi.openSource(data._options);
+                    break;
+
+                    case 'switchState' :
+                        televisionApi.switchState({
+                            state: data._options,
+                            tempo: config.hdmiIntervalTempo
+                        });
+                    break;
+                    
+                    default :
+                        console.log('command '+data._command+' not exist !')
+                }
+            break;
+        }
+    }   
 })
 
