@@ -34,7 +34,7 @@ gladysMqttAdapter.on('message-notify', function(data) {
                 switch (data._command) {
                     case 'getSource' :
                         var sources = televisionApi.getSources();
-                        gladysMqttAdapter.command.command(data._options,sources)
+                        gladysMqttAdapter.answer.send(data._options+"/answer/"+data.callback.answerUUID, sources)
                     break;
 
                     case 'isAlive' :
